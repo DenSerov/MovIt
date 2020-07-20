@@ -1,14 +1,5 @@
 #!/usr/bin/python
-
-genome_new = "L:\\genome.new"
-genome_processing = "L:\\genome.processing"
-genome_finished = "L:\\genome.finished"
-
-#genome_new = ".\\genome.new"
-#genome_processing = ".\\genome.processing"
-#genome_finished = ".\\genome.finished"
-basecal = "basecall2.py"
-
+from os import name as os_name
 from os import listdir
 from os import mkdir
 from os import rename
@@ -18,7 +9,24 @@ from os import walk
 from time import sleep
 from time import ctime
 from subprocess import Popen
+from sys import argv
+
 import boto3
+
+
+if len(argv) < 4:
+    print("Usage syntax:")
+    if os_name == "nt":
+        print(argv[0].split('\\')[-1],"[input path] [output path] [basecal script]")
+    else:
+        print(argv[0].split('/')[-1],"[input path] [output path] [basecal script]")
+    print("Example:")
+    print("mover.py ./genome_new ./genome_processing basecal.py")
+    exit(0)
+
+genome_new = argv[1]
+genome_processing = argv[2]
+basecal = argv[3]
 
 
 def list_buckets(client):
