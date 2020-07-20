@@ -1,27 +1,43 @@
 #!/usr/bin/python
 from sys import argv
 from os import mkdir
+from os import name as os_name
 from time import sleep
 from time import time
 from os import chdir
 from subprocess import call
 
-if len(argv) == 1:
+if len(argv) < 6:
     print("Usage syntax:")
-    print(argv[0],"[nfs | rsync] [genomes qty] [files per genome] [delay] [final destination path]")
-    exit(0)
-
-output_dir = argv[5]
-output_len = int(argv[3])
-output_qty = int(argv[2])
-delay = int(argv[4])
-
-if argv[1] == 'nfs':
+    if os_name == "nt":
+        my_name=argv[0].split('\\')[-1]
+    else:
+        my_name=argv[0].split('/')[-1]
+    print(my_name,"[nfs | rsync] [genomes qty] [files per genome] [delay] [final destination path]")
+    print("Example:")
+    print(my_name,"nfs 3 5 10 ./genome_new")
+    print("Using above defaults")
+    sleep(1)
     NFS = True
     rsync = False
-elif argv[1] == 'rsync':
-    NFS = False
-    rsync = True
+    output_qty = 3
+    output_len = 5
+    delay = 10
+    output_dir = "./genome_new"
+
+
+if len(argv) == 6:
+    if argv[1] == 'nfs':
+        NFS = True
+        rsync = False
+    elif argv[1] == 'rsync':
+        NFS = False
+        rsync = True
+    output_qty = int(argv[2])
+    output_len = int(argv[3])
+    delay = int(argv[4])
+    output_dir = argv[5]
+
 
 
 def file_creator(n, index):

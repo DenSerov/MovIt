@@ -20,13 +20,18 @@ if len(argv) < 4:
         print(argv[0].split('\\')[-1],"[input path] [output path] [basecal script]")
     else:
         print(argv[0].split('/')[-1],"[input path] [output path] [basecal script]")
-    print("Example:")
+    print("Example [Default]:")
     print("mover.py ./genome_new ./genome_processing basecal.py")
-    exit(0)
+    print("Trying to use above defaults")
+    sleep(1)
+    genome_new = "./genome_new"
+    genome_processing = "./genome_processing"
+    basecal = "basecal.py"
 
-genome_new = argv[1]
-genome_processing = argv[2]
-basecal = argv[3]
+if len(argv) == 4:
+    genome_new = argv[1]
+    genome_processing = argv[2]
+    basecal = argv[3]
 
 
 def list_buckets(client):
@@ -140,7 +145,6 @@ def mover():
 
 
 mypath = '"'+getcwd() + "\\" + basecal + '"'
-print(mypath)
 
 while True:
     mover()
