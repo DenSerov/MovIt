@@ -42,14 +42,14 @@ if len(argv) == 6:
 
 def file_creator(n, index):
     if index >= 0:
-        name = "seq_" + str(n) + "." + str(index) + ".fast5"
+        name = "seq" + str(n) + "." + str(index) + ".fast5"
     else:
-        name = "seq_" + str(n) + ".finish"
+        name = "seq" + str(n) + ".finish"
 
     if NFS:
-        name = "nfs_"+str(n)+"/"+name
+        name = "nfs"+str(n)+"/"+name
     if rsync:
-        name = "rsy_"+str(n)+"/"+name
+        name = "rsy"+str(n)+"/"+name
 
     f = open(name, mode='w')
     f.close()
@@ -68,9 +68,9 @@ for j in range(output_qty):
     print("Seq_ID:", seq_id)
 
     if NFS:
-        mkdir('nfs_' + seq_id)
+        mkdir('nfs' + seq_id)
     if rsync:
-        mkdir('rsy_' + seq_id)
+        mkdir('rsy' + seq_id)
 
     for i in range(files_to_create):
         file_creator(seq_id, i)

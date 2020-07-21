@@ -14,6 +14,7 @@ from os import chdir
 from os import getcwd
 from os import listdir
 from os import rename
+from subprocess import Popen
 
 
 def base_call(fast5):
@@ -27,17 +28,22 @@ def base_call(fast5):
 
 print("BASECALL for ",argv[1],"LAUNCHED")
 workdir = argv[1]
-print(workdir)
+# print(workdir)
 files = listdir(workdir)
-print(files)
+# print(files)
 for f in files:
     if '5' in f[-1]:
         base_call(f)
-        print(f, "is processed.\n\n")
+        # print(f, "is processed.\n\n")
         sleep(0.1)
 print(ctime(), "Finished processing", len(files), "files.")
 destination =  workdir.replace('processing','finished')
-print(workdir,'=>',destination)
+# print(workdir,'=>',destination)
 rename(workdir,destination)
-print(ctime(), "Closing ...")
+print(ctime(), "Archiving to S3 ...")
+bucket_name = destination.split('\\')[-1]
+url =    "http://192.168.221.1:9000"
+key  =   "minioadmin"
+secret = "minioadmin"
+Popen('python archive2s3.py %s %s %s %s %s' % (destination,bucket_name,url,key,secret), shell=True)
 sleep(1)

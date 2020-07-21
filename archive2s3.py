@@ -7,7 +7,7 @@ from os import path
 from random import randint
 
 
-if len(argv) == 4:
+if len(argv) == 6:
     source = argv[1]
     target = argv[2]
     url = argv[3]
@@ -50,17 +50,18 @@ def s3_client():
 
 def upload_folder_to_bucket(connection,folder_name,bucket_name):
     response = connection.create_bucket(Bucket=bucket_name)
-    print(response)
-
+    # print(response)
     files=listdir(source)
     for f in files:
         object_name = f
         if not path.isdir(f):
-            print("Uploading:",f)
-            connection.upload_file(f, bucket_name, object_name,ExtraArgs={'Metadata': {'Seq_ID': 'Test'}})
+            print("Uploading to S3:",f)
+            connection.upload_file(folder_name+'\\'+f, bucket_name, object_name,ExtraArgs={'Metadata': {'Seq_ID': 'Test'}})
+    sleep(5)
     return
 
 
 # initialize()
 connection=s3_client()
 upload_folder_to_bucket(connection,source,target)
+sleep(10)
