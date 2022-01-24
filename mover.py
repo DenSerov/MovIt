@@ -11,7 +11,7 @@ from time import ctime
 from subprocess import Popen
 from sys import argv
 
-import boto3
+# import boto3
 
 
 if len(argv) < 4:
